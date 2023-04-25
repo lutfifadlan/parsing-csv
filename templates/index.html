@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* CSS styles for displaying the uploaded files */
+    #fileList {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #fileList li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Upload CSV Files</h1>
+
+<form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+  <input type="file" name="files" multiple>
+  <input type="submit" value="Upload">
+</form>
+
+<h2>Uploaded Files:</h2>
+<ul id="fileList"></ul>
+
+<h1>Aggregate Files</h1>
+<button id="aggregateBtn">Aggregate</button>
+<pre id="aggregateResult"></pre>
+
+<script>
+  // JavaScript code for dynamically updating the UI with the uploaded files
+  const form = document.getElementById('uploadForm');
+  const fileList = document.getElementById('fileList');
+  const aggregateBtn = document.getElementById('aggregateBtn');
+  const aggregateResult = document.getElementById('aggregateResult');
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const response = await fetch('/upload', { method: 'POST', body: formData });
+    const data = await response.json();
+    if (data.success) {
+      const files = form.elements.files.files;
+      for (let i = 0; i < files.length; i++) {
+        const listItem = document.createElement('li');
+        listItem.textContent = `Filename: ${files[i].name}`;
+        fileList.appendChild(listItem);
+      }
+    }
+  });
+
+  aggregateBtn.addEventListener('click', async () => {
+    const response = await fetch('/aggregate', { method: 'POST' });
+    const data = await response.text();
+    aggregateResult.textContent = data;
+  });
+</script>
+
+</body>
+</html>

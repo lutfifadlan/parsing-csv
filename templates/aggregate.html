@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<h1>Aggregated Files</h1>
+<pre id="aggregateResult"></pre>
+
+<script>
+  // JavaScript code for fetching and displaying aggregated data
+  const aggregateResult = document.getElementById('aggregateResult');
+
+  window.onload = async () => {
+    const response = await fetch('/aggregate', { method: 'POST' });
+    const data = await response.text();
+    aggregateResult.textContent = data;
+  };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Aggregator</title>
+</head>
+<body>
+    <h1>CSV Aggregator</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Upload and Aggregate">
+    </form>
+    <div id="result"></div>
+    <script>
+        // Optional: Use JavaScript to handle form submission and display results
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var form = event.target;
+            var xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action, true);
+            xhr.onload = function() {
+                document.querySelector('#result').innerHTML = xhr.responseText;
+            };
+            xhr.send(new FormData(form));
+        });
+    </script>
+</body>
+</html>
